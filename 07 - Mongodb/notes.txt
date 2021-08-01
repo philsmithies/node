@@ -1,0 +1,6 @@
+SQL = Tables / Rows / Columns
+
+NoSQL = Collections/Documents
+
+- NoSQL splits everything up into collections rather than rows and Tables.
+
