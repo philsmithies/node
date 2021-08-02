@@ -22,34 +22,43 @@ app.use(express.static('public'))
 app.use(morgan('dev'))
 
 // mongoose and mongo sandbox routes
-app.get('/add-blog', (req, res) => {
-  const blog = new Blog({
-    title: 'new blog',
-    snippet: 'about my new blog',
-    body: 'more about my new blog'
-  });
+// app.get('/add-blog', (req, res) => {
+//   const blog = new Blog({
+//     title: 'new blog 2',
+//     snippet: 'about my new blog',
+//     body: 'more about my new blog'
+//   });
 
-  blog.save()
-  .then((result) => {
-    res.send(result)
-  })
-  .catch((err) => {
-    console.log(err)
-  })
-})
+//   blog.save()
+//   .then((result) => {
+//     res.send(result)
+//   })
+//   .catch((err) => {
+//     console.log(err)
+//   })
+// })
 
+// app.get('/all-blogs', (req, res) =>{
+//   Blog.find()
+//   .then((result => {
+//     res.send(result)
+//   })
+//   .catch((err) => {
+//     console.log(err)
+//   }))
+// })
 
+// app.get('/single-blog', (req, res) =>{
+//   Blog.findById('610720f759fce53797ea3b8c')
+//   .then((result => {
+//     res.send(result)
+//   }))
+// })
 
 
 // requests
 app.get('/', (req, res) => {
-  // handles our requests and the response codes for us
-  const blogs = [
-    {title: 'Yoshi finds eggs', snippet: 'Lorem impsum'},
-    {title: 'Luigi finds mario', snippet: 'Lorem impsum'},
-    {title: 'Bowser finds peach', snippet: 'Lorem impsum'},
-  ]
-  res.render('index', { title: 'Home', blogs })
+  res.redirect('/blogs')
 })
 
 
@@ -65,6 +74,16 @@ app.get('/about-us', (req, res) => {
 
 app.get('/blogs/create', (req, res) => {
   res.render('create', { title: 'Create a new blog' })
+})
+
+// blog routes
+app.get('/blogs', (req, res) => {
+  // sort by timestamp
+   Blog.find().sort({ createdAt: -1 })
+  .then((result => {
+    res.render('index', { title: 'All blogs', blogs: result})
+  })
+)
 })
 
 // 404 page
